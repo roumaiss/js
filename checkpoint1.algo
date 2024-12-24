@@ -1,0 +1,28 @@
+PROCEDURE inserion_sort(arr : ARRAY_OF INTEGER);
+VAR
+  i, j, current_element : INTEGER;
+BEGIN
+  FOR i FROM 1 TO arr.length - 1 STEP 1 DO
+    current_element = arr[i];  
+    j = i - 1;  
+
+    WHILE (j >= 0) AND (arr[j] > current_element) DO
+      arr[j + 1] = arr[j]; 
+      j = j - 1;  
+    END_WHILE;
+
+    arr[j + 1] = current_element;
+  END_FOR
+END;
+
+// the main algortithm
+ALGORITHM main_algo
+VAR
+  tab : ARRAY_OF INTEGER;
+BEGIN
+  tab=[2,5,7,3,4,9,6,9,1];
+  inserion_sort(tab);
+  FOR i FROM 0 TO tab.lenght -1 STEP 1  DO
+    Write(tab[i]);
+  END_FOR
+END
