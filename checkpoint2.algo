@@ -1,0 +1,87 @@
+FUNCTION sentence_length(sentence: STRING) : INTEGER
+VAR
+    i: INTEGER;         // Variable to keep track of the current character index in the sentence
+    length: INTEGER;    // Variable to store the count of characters before the period
+BEGIN
+    length = 1;         // Initialize length to 1 to start counting characters and adding the point with it 
+    i = 0;              // Initialize i to 0 to start from the first character in the sentence
+    WHILE (sentence[i] != ".") DO   // Loop until a period (".") is encountered
+        length = length + 1;       // Increment length by 1 for each character in the sentence
+        i = i + 1;                  // Increment the index to move to the next character in the sentence
+    END WHILE
+    RETURN length;         // Return the total number of characters counted before the period
+END
+
+PROCEDURE read_sentence(sentence : STRING , length : INTEGER)
+VAR
+    i: INTEGER;  // Variable to keep track of the current index in the sentence
+BEGIN
+    // Loop through each character in the sentence from 0 to length - 1
+    FOR i FROM 0 TO length - 1 STEP 1 DO  
+        Write(sentence[i]);  // Write (or print) the character at index i
+    END_FOR
+END
+
+
+FUNCTION words_number(sentence : STRING, length : INTEGER) : INTEGER
+VAR
+    number_w : INTEGER;     // Variable to store the number of words
+    i : INTEGER;            // Variable to iterate through each character in the sentence
+    in_word : BOOLEAN;      // Flag to track whether we are inside a word
+BEGIN
+    number_w = 0;           // Initialize word count to 0
+    in_word = FALSE;        // Initially, we are not inside a word
+    FOR i FROM 0 TO length - 1 STEP 1 DO  // Loop through each character in the sentence
+        IF (sentence[i] != " ") THEN  // Check if the current character is not a space
+            IF NOT in_word THEN      // If we are not already inside a word
+                number_w = number_w + 1;  // Start counting a new word
+                in_word = TRUE;     // Mark that we are inside a word
+            END IF
+        ELSE
+            in_word = FALSE;       // If it's a space, we are outside a word
+        END IF
+    END_FOR
+    RETURN number_w;            // Return the total number of words found
+END
+
+FUNCTION vowels(sentence : STRING, length : INTEGER) : INTEGER
+VAR
+    tab : ARRAY_OF CHAR;        // Array to hold the vowel characters (both uppercase and lowercase)
+    i : INTEGER;                // Loop index to iterate through each character of the sentence
+    number_vowels : INTEGER;    // Variable to count the number of vowels in the sentence
+BEGIN
+    number_vowels = 0;          // Initialize the vowel count to 0
+    tab = ["A", "O", "I", "E", "U", "a", "o", "i", "e", "u"];  // List of vowels (both uppercase and lowercase)
+    
+    // Loop through each character in the sentence
+    FOR i FROM 0 TO length - 1 STEP 1 DO  
+        IF (sentence[i] IN tab) THEN  // Check if the current character is a vowel
+            number_vowels = number_vowels + 1;  // Increment the vowel count
+        END IF
+    END_FOR
+    
+    RETURN number_vowels;   // Return the total number of vowels found in the sentence
+END
+
+
+
+ALGORITHM sentence_algo
+VAR
+    sentence: STRING;            // Variable to store the input sentence
+    sentence_length: INTEGER;    // Variable to store the length of the sentence
+    words_in_sentence: INTEGER; // Variable to store the number of words in the sentence
+    number_in_vowels: INTEGER;  // Variable to store the number of vowels in the sentence
+BEGIN
+    Write("Enter a sentence that ends with a period:");   // Prompt the user for input
+    Read(sentence);  // Read the input sentence from the user
+    
+    sentence_length = sentence_length(sentence);  // Call the sentence_length function to get the length of the sentence
+    
+    read_sentence(sentence, sentence_length);  // Call the read_sentence function to print the sentence
+    
+    words_in_sentence = words_number(sentence, sentence_length);  // Call the words_number function to count the number of words in the sentence
+    Write("The number of words in the sentence is ", words_in_sentence);  // Display the word count
+    
+    number_in_vowels = vowels(sentence, sentence_length);  // Call the vowels function to count the number of vowels in the sentence
+    Write("The number of vowels in the sentence is ", number_in_vowels);  // Display the vowel count
+END
